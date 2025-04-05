@@ -28,16 +28,16 @@ flowchart TD
     K0[Determine k_0] --> K0_ipad[k_0 ^ ipad]
     K0_ipad --> concat1["(k_0 ^ ipad) || message"]
     concat1 --> hash1["H((k_0 ^ ipad) || message)"]
-
+    
     K0 --> K0_opad[k_0 ^ opad]
-
+    
     K0_opad --> concat2["(k_0 ^ opad) || H((k_0 ^ ipad) || message)"]
     hash1 --> concat2
     concat2 --> final["H((k_0 ^ opad) || H((k_0 ^ ipad) || message))"]
-
-    classDef hashFunction fill:#d8b7ff;
+    
+    classDef hashFunction fill:#663399,stroke:#bf80ff,stroke-width:2px;
     class hash1 hashFunction;
-    classDef finalHash fill:#FFA500;
+    classDef finalHash fill:#b8860b,stroke:#ffd700,stroke-width:2px;
     class final finalHash;
 ```
 
