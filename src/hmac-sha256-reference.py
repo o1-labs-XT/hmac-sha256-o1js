@@ -29,30 +29,30 @@ def debug_hmac_sha256():
     k0_ipad = bytes((x ^ 0x36) for x in key_bytes)
     print(f"K0 ^ ipad: {bytes_to_hex_blocks(k0_ipad)}")
 
-    # Step 3: (K0 ^ ipad) || text
-    print("\n=== Step 3: (K0 ^ ipad) || text ===")
+    # Step 3: (K0 ^ ipad) || message
+    print("\n=== Step 3: (K0 ^ ipad) || message ===")
     inner_msg = k0_ipad + message_bytes
-    print(f"(K0 ^ ipad) || text: {bytes_to_hex_blocks(inner_msg)}")
+    print(f"(K0 ^ ipad) || message: {bytes_to_hex_blocks(inner_msg)}")
 
-    # Step 4: H((K0 ^ ipad) || text)
-    print("\n=== Step 4: H((K0 ^ ipad) || text) ===")
+    # Step 4: H((K0 ^ ipad) || message)
+    print("\n=== Step 4: H((K0 ^ ipad) || message) ===")
     inner_hash = hashlib.sha256(inner_msg).digest()
-    print(f"H((K0 ^ ipad) || text): {bytes_to_hex_blocks(inner_hash)}")
+    print(f"H((K0 ^ ipad) || message): {bytes_to_hex_blocks(inner_hash)}")
 
     # Step 5: K0 ^ opad
     print("\n=== Step 5: K0 ^ opad ===")
     k0_opad = bytes((x ^ 0x5c) for x in key_bytes)
     print(f"K0 ^ opad: {bytes_to_hex_blocks(k0_opad)}")
 
-    # Step 6: (K0 ^ opad) || H((K0 ^ ipad) || text)
-    print("\n=== Step 6: (K0 ^ opad) || H((K0 ^ ipad) || text) ===")
+    # Step 6: (K0 ^ opad) || H((K0 ^ ipad) || message)
+    print("\n=== Step 6: (K0 ^ opad) || H((K0 ^ ipad) || message) ===")
     outer_msg = k0_opad + inner_hash
-    print(f"(K0 ^ opad) || H((K0 ^ ipad) || text): {bytes_to_hex_blocks(outer_msg)}")
+    print(f"(K0 ^ opad) || H((K0 ^ ipad) || message): {bytes_to_hex_blocks(outer_msg)}")
 
-    # Step 7: H((K0 ^ opad) || H((K0 ^ ipad) || text))
+    # Step 7: H((K0 ^ opad) || H((K0 ^ ipad) || message))
     print("\n=== Step 7: Final HMAC ===")
     final_hash = hashlib.sha256(outer_msg).digest()
-    print(f"H((K0 ^ opad) || H((K0 ^ ipad) || text)): {binascii.hexlify(final_hash).decode()}")
+    print(f"H((K0 ^ opad) || H((K0 ^ ipad) || message)): {binascii.hexlify(final_hash).decode()}")
 
     # Verification
     print("\n=== Verification with standard HMAC ===")
