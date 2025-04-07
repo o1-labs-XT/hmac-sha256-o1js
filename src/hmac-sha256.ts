@@ -26,18 +26,21 @@ export class HMAC_SHA256 {
    * @returns The HMAC hash as Bytes
    */
   static compute(key: UInt32[], message: UInt32[]): Bytes {
-    // Step 1: k_0 is the input key
-    const k0 = key;
+    // Step 1: k_0 is the input key (pad with zeros if needed)
+    const k0 = Provable.Array(UInt32, 16).empty();
+    for (let i = 0; i < key.length; i++) {
+      k0[i] = key[i];
+    }
 
     // Step 2: k_0 ^ ipad (XOR key with inner padding)
     const k0XorIpad = Provable.Array(UInt32, 16).empty();
-    for (let i = 0; i < key.length; i++) {
+    for (let i = 0; i < 16; i++) {
       k0XorIpad[i] = k0[i].xor(UInt32.from(this.IPAD));
     }
 
     // Step 5: k_0 ^ opad (XOR key with outer padding)
     const k0XorOpad = Provable.Array(UInt32, 16).empty();
-    for (let i = 0; i < key.length; i++) {
+    for (let i = 0; i < 16; i++) {
       k0XorOpad[i] = k0[i].xor(UInt32.from(this.OPAD));
     }
 
