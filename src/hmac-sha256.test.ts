@@ -23,7 +23,7 @@ function bytesToUInt32Array(bytes: Uint8Array): UInt32[] {
 }
 
 describe('HMAC-SHA256', () => {
-  it('should match Node.js crypto implementation for multiple random inputs', () => {
+  it('should match Node.js crypto implementation for block-size inputs (64 bytes)', () => {
     for (let i = 0; i < 100; i++) {
       const keyBytes = crypto.randomBytes(64);
       const messageBytes = crypto.randomBytes(64);
