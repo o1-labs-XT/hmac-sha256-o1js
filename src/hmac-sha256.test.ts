@@ -45,7 +45,7 @@ describe('HMAC-SHA256', () => {
     }
   });
 
-  it('should match Node.js crypto implementation for different key sizes (1-63 bytes)', () => {
+  it('should match Node.js crypto implementation for key size < block size (1-63 bytes)', () => {
     for (let i = 0; i < 100; i++) {
       const keySize = Math.floor(Math.random() * 63) + 1;
       const keyBytes = crypto.randomBytes(keySize);
