@@ -35,13 +35,13 @@ export class HMAC_SHA256 {
     // Step 2: k_0 ^ ipad (XOR key with inner padding)
     const k0XorIpad = Provable.Array(UInt32, 16).empty();
     for (let i = 0; i < 16; i++) {
-      k0XorIpad[i] = k0[i].xor(UInt32.from(this.IPAD));
+      k0XorIpad[i] = k0[i].xor(this.IPAD);
     }
 
     // Step 5: k_0 ^ opad (XOR key with outer padding)
     const k0XorOpad = Provable.Array(UInt32, 16).empty();
     for (let i = 0; i < 16; i++) {
-      k0XorOpad[i] = k0[i].xor(UInt32.from(this.OPAD));
+      k0XorOpad[i] = k0[i].xor(this.OPAD);
     }
 
     // Step 3: Concatenate (k_0 ^ ipad) || message
