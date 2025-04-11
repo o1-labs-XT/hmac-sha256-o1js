@@ -16,14 +16,14 @@ export class HMAC_SHA256 {
   static readonly IPAD = UInt32.from(0x36363636); // Inner padding constant
   static readonly OPAD = UInt32.from(0x5c5c5c5c); // Outer padding constant
   static readonly BLOCK_SIZE = 64; // Block size for SHA256 (512 bits / 64 bytes)
-
+  
   /**
    * Computes HMAC-SHA256 for given key and message
    * @param key - The key for HMAC
    * @param message - The message to authenticate
    * @returns The HMAC hash as Bytes
    */
-  static hmacSha256(key: FlexibleBytes, message: FlexibleBytes): Bytes {
+  static compute(key: FlexibleBytes, message: FlexibleBytes): Bytes {
     // Step 1: k_0
     const k0 = Bytes(this.BLOCK_SIZE).from(Bytes.from(key).bytes);
 

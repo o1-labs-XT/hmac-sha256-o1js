@@ -8,7 +8,7 @@ describe('HMAC-SHA256', () => {
       const key = Bytes(64).random();
       const message = Bytes(64).random();
 
-      const ourHmac = HMAC_SHA256.hmacSha256(key, message);
+      const ourHmac = HMAC_SHA256.compute(key, message);
       const ourHmacHex = ourHmac.toHex();
 
       const nodeHmac = crypto
@@ -22,11 +22,11 @@ describe('HMAC-SHA256', () => {
 
   it('should match Node.js crypto implementation for key size < block size (1-63 bytes)', () => {
     for (let i = 0; i < 100; i++) {
-      const keySize = Math.floor(Math.random() * 63) + 1;
+      const keySize = Math.floor(Math.random() * 63) + 1; // 1 to 63 (inclusive)
       const key = Bytes(keySize).random();
       const message = Bytes(64).random();
 
-      const ourHmac = HMAC_SHA256.hmacSha256(key, message);
+      const ourHmac = HMAC_SHA256.compute(key, message);
       const ourHmacHex = ourHmac.toHex();
 
       const nodeHmac = crypto
