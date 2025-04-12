@@ -66,17 +66,38 @@ npm run testw # watch mode
 npm run coverage
 ```
 
+### Run Benchmark
+```sh
+npm run benchmark
+```
+
 ## Circuit Constraints
 
 _For key and message size of 64 bytes (512 bits)_
 
 | Constraint Type | Count |
 | --------------- | ----- |
-| Total rows      | 25294 |
-| Generic         | 7692  |
+| Total rows      | 25310 |
+| Generic         | 7708  |
 | EndoMulScalar   | 7630  |
 | Xor16           | 6648  |
 | Zero            | 3324  |
+
+## Circuit Constraints - [RFC 4231](https://datatracker.ietf.org/doc/html/rfc4231) Test Cases
+
+This section documents the circuit constraints for each test case from RFC 4231.
+
+| Test Vector | Constraints | Message Length (n) | Key Length (k) | Execution Time (s) |
+|-------------|-------------|-------------------|----------------|-------------------|
+| 1           | 21,136      | 8                 | 20             | 1.318            |
+| 2           | 21,214      | 28                | 4              | 0.841            |
+| 3           | 21,475      | 50                | 20             | 0.863            |
+| 4           | 21,504      | 50                | 25             | 0.884            |
+| 5           | 21,229      | 20                | 20             | 0.799            |
+| 6           | 37,228      | 54                | 131            | 1.511            |
+| 7           | 47,859      | 152               | 131            | 2.291            |
+
+_Tests performed on a MacBook Pro with M4 Pro chip and 24GB RAM with Node.js v22.12.0_
 
 ## References
 
