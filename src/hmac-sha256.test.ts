@@ -37,4 +37,22 @@ describe('HMAC-SHA256', () => {
       expect(ourHmacHex).toBe(nodeHmac);
     }
   });
+
+  it('should match Node.js crypto implementation for key size > block size (65-512 bytes)', () => {
+    for (let i = 0; i < 100; i++) {
+      const keySize = Math.floor(Math.random() * 448) + 65; // 65 to 512 (inclusive)
+      const key = Bytes(64).random();
+      const message = Bytes(keySize).random();
+
+      const ourHmac = HMAC_SHA256.compute(key, message);
+      const ourHmacHex = ourHmac.toHex();
+
+      const nodeHmac = crypto
+        .createHmac('sha256', key.toBytes())
+        .update(message.toBytes())
+        .digest('hex');
+
+      expect(ourHmacHex).toBe(nodeHmac);
+    }
+  });
 });
