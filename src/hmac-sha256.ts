@@ -1,4 +1,11 @@
-import { Bytes, Hash, UInt32, FlexibleBytes, Provable, UInt8 } from 'o1js';
+import {
+  Bytes,
+  Hash,
+  UInt32,
+  FlexibleBytes,
+  Provable,
+  UInt8,
+} from 'o1js';
 
 /**
  * Implementation of HMAC-SHA256 (Hash-based Message Authentication Code using SHA-256)
@@ -16,16 +23,47 @@ export class HMAC_SHA256 {
   static readonly IPAD = UInt32.from(0x36363636); // Inner padding constant
   static readonly OPAD = UInt32.from(0x5c5c5c5c); // Outer padding constant
   static readonly BLOCK_SIZE = 64; // Block size for SHA256 (512 bits / 64 bytes)
-  
+
+  /**
+   * Prepares a key for HMAC-SHA256 computation according to the HMAC specification (RFC 2104).
+   *
+   * If the key is longer than the block size (64 bytes):
+   * - The key is first hashed using SHA-256 to produce a 32-byte key
+   * - Then the 32-byte key is padded with zeros to reach the block size (64 bytes)
+   *
+   * If the key is shorter than the block size:
+   * - The key is padded with zeros to reach the block size
+   *
+   * If the key is exactly the block size:
+   * - The key is used as-is
+   *
+   * @param key - The input key as FlexibleBytes
+   * @returns A standardized key of exactly BLOCK_SIZE (64) bytes
+   */
+  static prepareKey(key: FlexibleBytes): Bytes {
+    let keyBuffer = Bytes.from(key);
+
+    if (key.length > this.BLOCK_SIZE) {
+      const hashedKeyBuffer = Hash.SHA2_256.hash(key);
+      keyBuffer = Bytes.from(hashedKeyBuffer);
+    }
+
+    if (keyBuffer.length < this.BLOCK_SIZE) {
+      keyBuffer = Bytes(this.BLOCK_SIZE).from(keyBuffer.bytes);
+    }
+
+    return keyBuffer;
+  }
+
   /**
    * Computes HMAC-SHA256 for given key and message
-   * @param key - The key for HMAC
-   * @param message - The message to authenticate
+   * @param key - The key for HMAC as FlexibleBytes
+   * @param message - The message to authenticate as FlexibleBytes
    * @returns The HMAC hash as Bytes
    */
   static compute(key: FlexibleBytes, message: FlexibleBytes): Bytes {
     // Step 1: k_0
-    const k0 = Bytes(this.BLOCK_SIZE).from(Bytes.from(key).bytes);
+    const k0 = this.prepareKey(key);
 
     // Convert padded key to UInt32 array for XOR operations
     const k0Uint32 = Provable.Array(UInt32, 16).empty();
