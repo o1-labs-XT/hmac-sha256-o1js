@@ -2,8 +2,6 @@
 
 An implementation of provable HMAC-SHA256 in o1js.
 
-> ⚠️ **NOTE**: This implementation currently only supports key and message sizes that are exactly equal to the SHA-256 block size (64 bytes/512 bits). Key/message padding and truncation are not yet implemented.
-
 ## HMAC Construction
 
 The implementation follows the standard HMAC construction:
