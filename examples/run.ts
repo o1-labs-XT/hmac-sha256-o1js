@@ -12,7 +12,7 @@ export let hmacSha256ZkProgram = ZkProgram({
       ],
 
       async method(key: Bytes, message: Bytes) {
-        const hash = HMAC_SHA256.hmacSha256(key, message);
+        const hash = HMAC_SHA256.compute(key, message);
         return { publicOutput: hash };
       },
     },
