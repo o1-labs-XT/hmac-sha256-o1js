@@ -13,8 +13,8 @@ HMAC(K,m) = H((k_0 ^ opad) || H((k_0 ^ ipad) || m))
 where:
 
 - k_0 is the input key
-- ipad is the inner padding (0x36363636 repeated)
-- opad is the outer padding (0x5c5c5c5c repeated)
+- ipad is the inner padding (0x36 repeated)
+- opad is the outer padding (0x5c repeated)
 - H is SHA2_256 hash function
 - || denotes concatenation
 - ^ denotes XOR operation
